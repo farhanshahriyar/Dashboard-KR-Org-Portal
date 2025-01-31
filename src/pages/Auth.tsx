@@ -81,7 +81,7 @@ export default function Auth() {
               <TabsTrigger value="login">Login</TabsTrigger>
               <TabsTrigger value="register">Register</TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value="login">
               <form onSubmit={handleEmailSignIn} className="space-y-4">
                 <div className="space-y-2">
@@ -89,7 +89,7 @@ export default function Auth() {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="m@example.com"
+                    placeholder="mashrurbinmorshed@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -100,6 +100,7 @@ export default function Auth() {
                   <Input
                     id="password"
                     type="password"
+                    placeholder="enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
@@ -118,7 +119,7 @@ export default function Auth() {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="m@example.com"
+                    placeholder="farhanfuadnabil@example.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -129,6 +130,7 @@ export default function Auth() {
                   <Input
                     id="password"
                     type="password"
+                    placeholder="enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
