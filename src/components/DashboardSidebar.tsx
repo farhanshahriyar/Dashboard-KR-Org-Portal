@@ -18,7 +18,7 @@ export function DashboardSidebar() {
         <SidebarGroup>
           <SidebarGroupLabel>
             <div className="flex flex-col">
-              <span>KingsRock Portal</span>
+              <span className="text-[15px]">KingsRock Portal</span>
               <div className="flex items-center gap-2">
                 <span className="text-xs font-normal opacity-70">{getRoleDisplay()}</span>
                 <RoleFeaturesDropdown />

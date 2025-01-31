@@ -1,3 +1,5 @@
+import { useState, useEffect, useMemo } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Calendar, FileText } from "lucide-react";
 import {
@@ -10,7 +12,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useMemo } from "react";
 
 // Mock data - replace with actual data later
 const mockChartData = [
@@ -32,6 +33,35 @@ const mockChartData = [
 ];
 
 const Index = () => {
+  const [userName, setUserName] = useState<string | null>(null);
+  const [userFullName, setUserFullName] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        // Fetch user profile data from Supabase
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("username, full_name")
+          .eq("id", user.id)
+          .single();
+
+        if (profile) {
+          setUserName(profile.username);
+          setUserFullName(profile.full_name);
+        }
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
+
+  // Function to get the greeting name
+  const getGreetingName = () => {
+    return userName || userFullName || "KR Member";
+  };
+
   // Memoize static data to prevent unnecessary re-renders
   const stats = useMemo(() => [
     {
@@ -75,7 +105,8 @@ const Index = () => {
   return (
     <div className="container mx-auto p-4 lg:p-6 max-w-7xl">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold mb-2">Hi John</h1>
+        {/* Dynamic Greeting */}
+        <h1 className="text-2xl font-bold mb-2">Hi, {getGreetingName()}</h1>
         <h2 className="text-3xl font-bold">Dashboard Overview</h2>
       </div>
       
@@ -128,7 +159,8 @@ const Index = () => {
           </div>
         </CardContent>
       </Card>
-      
+
+      {/* Stats */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-8">
         {stats.map((stat) => (
           <Card key={stat.title}>
@@ -148,6 +180,7 @@ const Index = () => {
         ))}
       </div>
 
+      {/* Recent Updates */}
       <Card>
         <CardHeader>
           <CardTitle>Recent Updates</CardTitle>
